@@ -28,6 +28,11 @@ game_display = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
 game_display.fill(WHITE_COLOR)
 pygame.display.set_caption(DISPLAY_TITLE)
 
+# Load the player image from the file directory
+player_image = pygame.image.load('player.png')
+# Scale the image up
+player_image = pygame.transform.scale(player_image, (50, 50))
+
 # Main game loop, used to update all gameplay such as movement, checks, and graphics
 # Runs until is_game_over = True
 while not is_game_over:
@@ -39,6 +44,14 @@ while not is_game_over:
             is_game_over = True
         
         print(event)
+
+    # Draw a rectangle on top of the game display (x, y, width, height)
+    # pygame.draw.rect(game_display, BLACK_COLOR, [350, 350, 100, 100])
+    # Draw a circle on top of  the game display (x, y, radius)
+    # pygame.draw.circle(game_display, BLACK_COLOR, (400, 300), 50)
+
+    # Draw the player image on top of the screen at (x, y) position 
+    game_display.blit(player_image, (375, 375))
 
     # Update all game graphics
     pygame.display.update()
