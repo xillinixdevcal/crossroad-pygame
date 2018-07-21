@@ -19,7 +19,6 @@ class Game:
     # Typical rate of 60, equivalent to FPS
     TICK_RATE = 60
     
-
     # Initializer for the game class to set up the title, width, and height
     def __init__(self, title, width, height):
         self.title = title
@@ -36,6 +35,7 @@ class Game:
         is_game_over = False
         direction = 0
         player_character = PlayerCharacter('player.png', 375, 700, 50, 50)
+        enemy_0 = EnemyCharacter('enemy.png', 20, 400, 50, 50)
 
         # Main game loop, used to update all gameplay such as movement, checks, and graphics
         # Runs until is_game_over = True
@@ -68,6 +68,9 @@ class Game:
             # Draw the player at the new position
             player_character.draw(self.game_display)
 
+            enemy_0.move(self.width)
+            enemy_0.draw(self.game_display)
+
             # Update all game graphics
             pygame.display.update()
             # Tick the clock to update everything within the game
@@ -97,12 +100,34 @@ class PlayerCharacter(GameObject):
         super().__init__(image_path, x, y, width, height)
 
     # Move function will move character up if direction > 0 and down if direction < 0
-    def move(self, direction):
+    def move(self, direction, max_height):
         if direction > 0:
             self.y_pos -= self.SPEED
         elif direction < 0:
             self.y_pos += self.SPEED 
 
+        # Make sure the character never goes pas the bottom of the display
+        if self.y_pos >= max_height - 20:
+            self.y_pos = max_height - 20
+
+
+# Class to represent the enemies moving left to right and right to left
+class EnemyCharacter(GameObject):
+    # How many tiles the character moves per second
+    SPEED = 10
+
+    def __init__(self, image_path, x, y, width, height):
+        super().__init__(image_path, x, y, width, height)
+
+    # Move function will move character right once it hits the far left of the
+    # display and left once it hits the far right of the display
+    def move(self, max_width):
+        if self.x_pos <= 20:
+            self.SPEED = abs(self.SPEED)
+        elif self.x_pos >= max_width - 20:
+            self.SPEED = -abs(self.SPEED)
+        
+        self.x_pos += self.SPEED
 
 # Initialize pygame
 pygame.init()
