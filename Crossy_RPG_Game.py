@@ -36,6 +36,7 @@ class Game:
         direction = 0
         player_character = PlayerCharacter('player.png', 375, 700, 50, 50)
         enemy_0 = EnemyCharacter('enemy.png', 20, 400, 50, 50)
+        treasure = GameObject('treasure.png', 375, 50, 50, 50)
 
         # Main game loop, used to update all gameplay such as movement, checks, and graphics
         # Runs until is_game_over = True
@@ -63,13 +64,24 @@ class Game:
 
             # Redraw the display to be a blank white window
             self.game_display.fill(WHITE_COLOR)
+
+            # Draw the treasure
+            treasure.draw(self.game_display)
+
             # Update the player position
             player_character.move(direction, self.height)
             # Draw the player at the new position
             player_character.draw(self.game_display)
 
+            # Move and draw the enemy character
             enemy_0.move(self.width)
             enemy_0.draw(self.game_display)
+
+            # End game if collision between enemy and treasure
+            if player_character.detect_collision(enemy_0):
+                is_game_over = True
+            elif player_character.detect_collision(treasure):
+                is_game_over = True
 
             # Update all game graphics
             pygame.display.update()
@@ -107,9 +119,23 @@ class PlayerCharacter(GameObject):
             self.y_pos += self.SPEED 
 
         # Make sure the character never goes pas the bottom of the display
-        if self.y_pos >= max_height - 20:
-            self.y_pos = max_height - 20
+        if self.y_pos >= max_height - 40:
+            self.y_pos = max_height - 40
 
+    # Return False (no collision) if y positions and x positions do not overlap
+    # Return True x and y positions overlap
+    def detect_collision(self, other_entity):
+        if self.y_pos > other_entity.y_pos + other_entity.height:
+            return False
+        elif self.y_pos + self.height < other_entity.y_pos:
+            return False
+
+        if self.x_pos > other_entity.x_pos + other_entity.width:
+            return False
+        elif self.x_pos + self.width < other_entity.x_pos:
+            return False
+
+        return True
 
 # Class to represent the enemies moving left to right and right to left
 class EnemyCharacter(GameObject):
@@ -124,7 +150,7 @@ class EnemyCharacter(GameObject):
     def move(self, max_width):
         if self.x_pos <= 20:
             self.SPEED = abs(self.SPEED)
-        elif self.x_pos >= max_width - 20:
+        elif self.x_pos >= max_width - 40:
             self.SPEED = -abs(self.SPEED)
         
         self.x_pos += self.SPEED
