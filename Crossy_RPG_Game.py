@@ -51,6 +51,20 @@ class Game:
             # Tick the clock to update everything within the game
             clock.tick(self.TICK_RATE)
 
+class GameObject:
+    def __init__(self, image_path, x, y, width, height):
+        object_image = pygame.image.load(image_path)
+        # Scale the image up
+        self.image = pygame.transform.scale(object_image, (width, height))
+        self.x_pos = x
+        self.y_pos = y
+
+    def draw(self, background):
+        background.blit(self.image, (self.x_pos, self.y_pos))
+
+
+
+
 # Initialize pygame
 pygame.init()
 
@@ -62,9 +76,7 @@ pygame.quit()
 quit()
 
 # Load the player image from the file directory
-# player_image = pygame.image.load('player.png')
-# Scale the image up
-# player_image = pygame.transform.scale(player_image, (50, 50))
+
 
 # Draw a rectangle on top of the game display (x, y, width, height)
 # pygame.draw.rect(game_display, BLACK_COLOR, [350, 350, 100, 100])
