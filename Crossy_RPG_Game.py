@@ -64,7 +64,7 @@ class Game:
             # Redraw the display to be a blank white window
             self.game_display.fill(WHITE_COLOR)
             # Update the player position
-            player_character.move(direction)
+            player_character.move(direction, self.height)
             # Draw the player at the new position
             player_character.draw(self.game_display)
 
