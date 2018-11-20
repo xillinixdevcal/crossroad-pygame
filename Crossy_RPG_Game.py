@@ -80,7 +80,7 @@ class Game:
                     # Stop movement when key no longer pressed
                     if event.key == pygame.K_UP or event.key == pygame.K_DOWN:
                         direction = 0
-                print(event)
+                # print(event)
 
             # Redraw the display to be a blank white window
             self.game_display.fill(WHITE_COLOR)
@@ -217,15 +217,4 @@ new_game.run_game_loop(1)
 # Quit pygame and the program
 pygame.quit()
 quit()
-
-# Load the player image from the file directory
-
-
-# Draw a rectangle on top of the game display (x, y, width, height)
-# pygame.draw.rect(game_display, BLACK_COLOR, [350, 350, 100, 100])
-# Draw a circle on top of  the game display (x, y, radius)
-# pygame.draw.circle(game_display, BLACK_COLOR, (400, 300), 50)
-
-# Draw the player image on top of the screen at (x, y) position 
-# game_display.blit(player_image, (375, 375))
 
